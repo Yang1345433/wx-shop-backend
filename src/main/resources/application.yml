@@ -1,7 +1,7 @@
 server:
   port: 8080
   servlet:
-    context-path: /api
+    context-path: /wx-api
 
 spring:
   application:
@@ -78,3 +78,8 @@ springdoc:
   group-configs:
     - group: '用户'
       paths-to-match: '/user/**'
+    - group: '测试'
+      paths-to-match: '/test/**'
+    - group: '认证'
+      paths-to-match:
+        - '/auth/**'

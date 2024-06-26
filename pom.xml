@@ -7,7 +7,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.3.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
 
     <groupId>yang-cdtu.cn</groupId>
@@ -22,7 +22,9 @@
         <hutool.version>5.8.28</hutool.version>
         <minio.version>8.5.10</minio.version>
         <knife4j.version>4.5.0</knife4j.version>
+        <spring.security.version>3.3.0</spring.security.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -83,6 +85,12 @@
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
             <version>${knife4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>${spring.security.version}</version>
         </dependency>
     </dependencies>
 
