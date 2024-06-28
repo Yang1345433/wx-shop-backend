@@ -2,6 +2,7 @@ package yangcdtu.cn.wxshop.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,10 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import yangcdtu.cn.wxshop.common.exception.ServerException;
 import yangcdtu.cn.wxshop.dto.LoginByPasswordDTO;
+import yangcdtu.cn.wxshop.enums.UserLevelEnum;
 import yangcdtu.cn.wxshop.security.TokenStoreCache;
 import yangcdtu.cn.wxshop.security.TokenUtils;
 import yangcdtu.cn.wxshop.security.UserDetail;
-import yangcdtu.cn.wxshop.vo.TokenVO;
+import yangcdtu.cn.wxshop.vo.auth.TokenVO;
+import yangcdtu.cn.wxshop.vo.auth.UserInfoVO;
+
+import java.time.LocalDate;
 
 @Tag(name = "认证")
 @RestController
@@ -41,6 +46,23 @@ public class AuthController {
         UserDetail user = (UserDetail) authentication.getPrincipal();
         String accessToken = TokenUtils.generator();
         tokenStoreCache.saveUser(accessToken, user);
-        return new TokenVO(accessToken);
+        return new TokenVO(
+                accessToken,
+                new UserInfoVO(
+                        "/static/images/avatar.png",
+                        user.getName(),
+                        user.getId(),
+                        UserLevelEnum.LEVEL_2.getCode(),
+                        UserLevelEnum.LEVEL_2.getDesc(),
+                        LocalDate.now().toString(),
+                        user.getUsername()
+                )
+        );
+    }
+
+    @PostMapping("logout")
+    @Operation(summary = "登出")
+    public void logout(HttpServletRequest request) {
+        tokenStoreCache.deleteUser(TokenUtils.getAccessToken(request));
     }
 }

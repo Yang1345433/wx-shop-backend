@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.stream.StreamSupport;
 
 @Service
 @AllArgsConstructor
@@ -148,5 +150,20 @@ public class MinioService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public List<String> getObjectsNameByBucket(String bucket) {
+        return StreamSupport.stream(
+                minioClient.listObjects(ListObjectsArgs.builder().bucket(bucket).build()).spliterator(),
+                false
+        ).map(result -> {
+            try {
+                return result.get().objectName();
+            } catch (ErrorResponseException | ServerException | XmlParserException | NoSuchAlgorithmException |
+                     IOException | InvalidResponseException | InvalidKeyException | InternalException |
+                     InsufficientDataException e) {
+                throw new RuntimeException(e);
+            }
+        }).toList();
     }
 }

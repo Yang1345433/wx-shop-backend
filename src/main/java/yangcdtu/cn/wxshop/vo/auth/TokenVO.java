@@ -1,4 +1,4 @@
-package yangcdtu.cn.wxshop.vo;
+package yangcdtu.cn.wxshop.vo.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,4 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class TokenVO {
     private String accessToken;
+    private UserInfoVO userInfo;
 }

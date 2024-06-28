@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import yangcdtu.cn.wxshop.entity.User;
 import yangcdtu.cn.wxshop.service.UserService;
+import yangcdtu.cn.wxshop.vo.user.UserIndexVO;
 
 @Tag(name = "用户")
 @RestController
@@ -20,5 +21,11 @@ public class UserController {
     @Operation(summary = "用户信息")
     public User userInfo(@RequestParam Long id) {
         return userService.getById(id);
+    }
+
+    @GetMapping("index")
+    @Operation(summary = "用户index信息")
+    public UserIndexVO userIndexInfo() {
+        return userService.getUserIndex();
     }
 }
