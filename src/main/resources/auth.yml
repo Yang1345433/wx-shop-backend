@@ -10,3 +10,8 @@ auth:
     - /doc.html
     - /auth/**
     - /home/**
+    - /article/**
+    - /goods/**
+    - /brand/**
+    - /cart/**
+    - /comment/**
