@@ -13,4 +13,6 @@ public class GoodsDetailVO {
     private List<ProductVO> productList;
     private BrandVO brand;
     private CommentVO comment;
+    private List<AttributeVO> attribute;
+    private List<IssueVO> issue;
 }

@@ -15,3 +15,4 @@ auth:
     - /brand/**
     - /cart/**
     - /comment/**
+    - /catalog/**

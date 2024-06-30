@@ -22,6 +22,11 @@ import java.util.List;
 @AllArgsConstructor
 public class GoodsController {
     private final MinioService minioService;
+    @GetMapping("count")
+    @Operation(summary = "数量")
+    public GoodsCountVO getGoodsCount() {
+        return new GoodsCountVO(100L);
+    }
     @GetMapping("detail")
     @Operation(summary = "信息")
     public GoodsDetailVO getGoodsDetail(@RequestParam Long id) {
@@ -37,7 +42,8 @@ public class GoodsController {
                         "goods 1",
                         "brief",
                         BigDecimal.valueOf(30.00),
-                        BigDecimal.valueOf(20.00)
+                        BigDecimal.valueOf(20.00),
+                        "<h1>detail content</h1>"
                 ),
                 List.of(
                         new SpecificationVO(
@@ -74,6 +80,14 @@ public class GoodsController {
                                         )
                                 )
                         )
+                ),
+                List.of(
+                        new AttributeVO("attribute 1", "value 1"),
+                        new AttributeVO("attribute 2", "value 2")
+                ),
+                List.of(
+                        new IssueVO("question 1", "answer 1"),
+                        new IssueVO("question 2", "answer 2")
                 )
         );
     }
@@ -118,6 +132,20 @@ public class GoodsController {
                         "related goods 2 name",
                         BigDecimal.valueOf(400.00)
                 )
+        );
+    }
+
+    @GetMapping("category")
+    @Operation(summary = "分类")
+    public CategoryVO getGoodsCategory(@RequestParam Long id) {
+        System.out.println(id);
+        return new CategoryVO(
+                new CategoryDetailVO(1L, "parent category", null),
+                List.of(
+                        new CategoryDetailVO(2L, "brother category 1", null),
+                        new CategoryDetailVO(3L, "brother category 2", null)
+                ),
+                new CategoryDetailVO(2L, "current category 1", "front name")
         );
     }
 

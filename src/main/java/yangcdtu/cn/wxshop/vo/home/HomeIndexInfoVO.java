@@ -13,4 +13,9 @@ public class HomeIndexInfoVO {
     private List<ChannelVO> channel;
     private List<ArticlesVO> articles;
     private List<GrouponVO> grouponList;
+    private List<TopicVO> topicList;
+    private List<BrandVO> brandList;
+    private List<NewGoodsVO> newGoodsList;
+    private List<HotGoodsVO> hotGoodsList;
+    private List<FloorGoodsVO> floorGoodsList;
 }
