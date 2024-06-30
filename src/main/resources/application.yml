@@ -83,3 +83,7 @@ springdoc:
     - group: '认证'
       paths-to-match:
         - '/auth/**'
+
+wx:
+  app-id: 'wx52c52bc06f25dd86'
+  app-secret: '74576f6e895507f3ddfcf2a88daa370b'

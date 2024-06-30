@@ -23,6 +23,8 @@
         <minio.version>8.5.10</minio.version>
         <knife4j.version>4.5.0</knife4j.version>
         <spring.security.version>3.3.0</spring.security.version>
+        <weixin-java-pay.version>4.6.2.B</weixin-java-pay.version>
+        <weixin-java-miniapp.version>4.6.2.B</weixin-java-miniapp.version>
     </properties>
 
     <dependencies>
@@ -91,6 +93,18 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
             <version>${spring.security.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-pay</artifactId>
+            <version>${weixin-java-pay.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-miniapp</artifactId>
+            <version>${weixin-java-miniapp.version}</version>
         </dependency>
     </dependencies>
 

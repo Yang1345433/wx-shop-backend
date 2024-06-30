@@ -5,8 +5,11 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import yangcdtu.cn.wxshop.enums.RoleEnum;
+import yangcdtu.cn.wxshop.enums.UserLevelEnum;
+import yangcdtu.cn.wxshop.vo.auth.UserInfoVO;
 
 import java.io.Serial;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -62,5 +65,19 @@ public class UserDetail implements UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public UserInfoVO toUserInfoVO(
+            String avatarUrl
+    ) {
+        return new UserInfoVO(
+                avatarUrl,
+                this.name,
+                this.getId(),
+                UserLevelEnum.LEVEL_1.getCode(),
+                UserLevelEnum.LEVEL_1.getDesc(),
+                LocalDate.now().toString(),
+                this.username
+        );
     }
 }
