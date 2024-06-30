@@ -1,4 +1,4 @@
-package yangcdtu.cn.wxshop.dto;
+package yangcdtu.cn.wxshop.dto.auth;
 
 import lombok.Data;
 
