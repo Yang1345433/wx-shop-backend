@@ -111,7 +111,19 @@ public class GoodsController {
                                 BigDecimal.valueOf(40.00)
                         )
                 ),
-                10L
+                1L,
+                List.of(
+                        new CategoryDetailVO(
+                                1L,
+                                "category 1",
+                                null
+                        ),
+                        new CategoryDetailVO(
+                                1L,
+                                "category 1",
+                                null
+                        )
+                )
         );
     }
 

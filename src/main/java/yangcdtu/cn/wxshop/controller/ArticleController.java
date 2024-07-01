@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import yangcdtu.cn.wxshop.service.ArticleService;
 import yangcdtu.cn.wxshop.vo.article.ArticleDetailVO;
 
 @Tag(name = "公告")
@@ -14,9 +15,10 @@ import yangcdtu.cn.wxshop.vo.article.ArticleDetailVO;
 @RequestMapping("article")
 @AllArgsConstructor
 public class ArticleController {
+    private final ArticleService articleService;
     @GetMapping("detail")
     @Operation(summary = "信息")
     public ArticleDetailVO getArticleDetail(@RequestParam Long id) {
-        return new ArticleDetailVO("test" + id, "正式内容", "2024-06-28", 1);
+        return articleService.getById(id).toDetailVO();
     }
 }

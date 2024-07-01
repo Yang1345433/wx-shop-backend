@@ -16,3 +16,5 @@ auth:
     - /cart/**
     - /comment/**
     - /catalog/**
+    - /groupon/**
+    - /search/**

@@ -10,4 +10,5 @@ import java.util.List;
 public class GoodsPage {
     private List<GoodsVO> goodsList;
     private Long totalPages;
+    private List<CategoryDetailVO> filterCategoryList;
 }

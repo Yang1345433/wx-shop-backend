@@ -1,4 +1,4 @@
-package yangcdtu.cn.wxshop.vo.home;
+package yangcdtu.cn.wxshop.vo.groupon;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +10,6 @@ import java.math.BigDecimal;
 public class GrouponVO {
     private Long id;
     private Integer groupon_member;
-    private BigDecimal groupon_price;
     private GoodsVO goods;
+    private BigDecimal groupon_price;
 }
