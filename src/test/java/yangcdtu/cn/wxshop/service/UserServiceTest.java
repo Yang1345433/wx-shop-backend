@@ -43,4 +43,11 @@ public class UserServiceTest {
         System.out.println(page.getTotal());
         System.out.println(page.getRecords());
     }
+
+    @Test
+    public void getUser() {
+        User user = userService.getById(1L);
+
+        System.out.println(user);
+    }
 }

@@ -14,6 +14,11 @@ public class Category {
     private String picUrl;
     private String frontName;
     private String name;
+    private String iconUrl;
+//    @TableField(typeHandler = StringListHandler.class)
+//    private List<String> gallery;
+//    private String brief;
+//    private String detail;
 
     public CategoryVO toVO() {
         return new CategoryVO(id, name);

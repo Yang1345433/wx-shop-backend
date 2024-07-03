@@ -27,10 +27,15 @@ CREATE TABLE IF NOT EXISTS `article`
 CREATE TABLE IF NOT EXISTS `goods`
 (
     `id`            BIGINT                      NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `category_id`   BIGINT                      NOT NULL COMMENT '分类id',
+    `category_name` VARCHAR(120)                NOT NULL COMMENT '分类名称',
     `pic_url`       VARCHAR(255)                NOT NULL COMMENT '图片',
     `name`          VARCHAR(120)                NOT NULL COMMENT '名称',
     `brief`         VARCHAR(255) COMMENT '介绍',
-    `counter_price` DECIMAL(10, 2) DEFAULT 0.00 NOT NULL COMMENT '价格',
+    `retail_price`  DECIMAL(10, 2) DEFAULT 0.00 NOT NULL COMMENT '新价格',
+    `counter_price` DECIMAL(10, 2) COMMENT '老价格',
+    `detail`        VARCHAR(255) COMMENT '详细',
+    `other_info` TEXT COMMENT '其他信息',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT '商品表';
@@ -48,10 +53,32 @@ CREATE TABLE IF NOT EXISTS `groupon`
 CREATE TABLE IF NOT EXISTS `category`
 (
     `id`         BIGINT       NOT NULL AUTO_INCREMENT COMMENT '主键id',
-    `parent_id`   BIGINT       NOT NULL COMMENT '父分类id',
+    `parent_id`  BIGINT       NOT NULL COMMENT '父分类id',
     `pic_url`    VARCHAR(255) NOT NULL COMMENT '图片',
     `front_name` VARCHAR(255) COMMENT '前端名称',
     `name`       VARCHAR(255) NOT NULL COMMENT '名称',
+    `icon_url`   VARCHAR(255) COMMENT '名称',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT '分类表';
+
+CREATE TABLE IF NOT EXISTS `specification`
+(
+    `id`       BIGINT       NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `goods_id` BIGINT       NOT NULL COMMENT '商品id',
+    `value`    VARCHAR(255) NOT NULL COMMENT '值',
+    `spec`     VARCHAR(255) NOT NULL COMMENT '规格类型',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT '商品规格表';
+
+CREATE TABLE IF NOT EXISTS `product`
+(
+    `id`             BIGINT                      NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `goods_id`       BIGINT                      NOT NULL COMMENT '商品id',
+    `price`          DECIMAL(10, 2) DEFAULT 0.00 NOT NULL COMMENT '价格',
+    `specifications` VARCHAR(255)                NOT NULL COMMENT '规格',
+    `number`         BIGINT         DEFAULT 0    NOT NULL COMMENT '数量',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT '产品表';

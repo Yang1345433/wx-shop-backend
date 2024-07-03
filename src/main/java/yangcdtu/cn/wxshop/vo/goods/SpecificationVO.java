@@ -9,4 +9,5 @@ import java.util.List;
 @AllArgsConstructor
 public class SpecificationVO {
     private List<SpecificationValueVO> valueList;
+    private String name;
 }

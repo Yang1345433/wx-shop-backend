@@ -43,6 +43,7 @@ mybatis-plus:
     prefix:
     blobType: BLOB
     boolValue: TRUE
+  type-handlers-package: classpath*:/handler/**/*
 
 # 健康检查
 management:

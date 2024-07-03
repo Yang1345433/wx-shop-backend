@@ -11,7 +11,6 @@ import yangcdtu.cn.wxshop.entity.Article;
 import yangcdtu.cn.wxshop.enums.MinioBucketEnum;
 import yangcdtu.cn.wxshop.service.ArticleService;
 import yangcdtu.cn.wxshop.service.IndexService;
-import yangcdtu.cn.wxshop.vo.article.ArticlesVO;
 import yangcdtu.cn.wxshop.vo.home.*;
 
 import java.math.BigDecimal;
@@ -28,28 +27,13 @@ public class IndexController {
     @GetMapping("index")
     @Operation(summary = "数据")
     public HomeIndexInfoVO homeIndexInfo() {
-        // 轮播图
-        List<BannerVO> banners = minioService.getObjectsNameByBucket(MinioBucketEnum.HOME_BANNER.getCode()).stream().map(
-                item -> new BannerVO(minioService.getUrlForDownload(MinioBucketEnum.HOME_BANNER.getCode(), item))
-        ).toList();
-
-        // 公告
-        List<ArticlesVO> articles = articleService.list().stream().map(Article::toVO).toList();
-
-        // 团购
-        List<GrouponVO> grouponList = indexService.grouponList();
-
         return new HomeIndexInfoVO(
-                banners,
-                List.of(
-                        new ChannelVO(
-                                1L,
-                                minioService.getUrlForDownload(MinioBucketEnum.HOME_CHANNEL.getCode(), "dfh.png"),
-                                "火车"
-                        )
-                ),
-                articles,
-                grouponList,
+                minioService.getObjectsNameByBucket(MinioBucketEnum.HOME_BANNER.getCode()).stream().map(
+                        item -> new BannerVO(minioService.getUrlForDownload(MinioBucketEnum.HOME_BANNER.getCode(), item))
+                ).toList(),
+                indexService.getIndexChannel(),
+                articleService.list().stream().map(Article::toVO).toList(),
+                indexService.grouponList(),
                 List.of(
                         new TopicVO(
                                 1L,

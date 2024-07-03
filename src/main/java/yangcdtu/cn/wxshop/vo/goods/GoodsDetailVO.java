@@ -15,4 +15,5 @@ public class GoodsDetailVO {
     private CommentVO comment;
     private List<AttributeVO> attribute;
     private List<IssueVO> issue;
+    private List<GrouponVO> groupon;
 }

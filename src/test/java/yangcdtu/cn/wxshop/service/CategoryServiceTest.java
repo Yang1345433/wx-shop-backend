@@ -18,23 +18,27 @@ public class CategoryServiceTest {
                 new Category(
                         null,
                         0L,
-                        "head.png",
+                        "h.jpeg",
                         "数码",
-                        "数码产品"
+                        "数码产品",
+                        "icon.png"
+
                 ),
                 new Category(
                         null,
                         0L,
-                        "head.png",
+                        "h.jpeg",
                         "电器",
-                        "电器产品"
+                        "电器产品",
+                        "icon.png"
                 ),
                 new Category(
                         null,
                         0L,
-                        "head.png",
+                        "h.jpeg",
                         "服装",
-                        "服装产品"
+                        "服装产品",
+                        "icon.png"
                 )
         );
 
@@ -47,16 +51,18 @@ public class CategoryServiceTest {
                 new Category(
                         null,
                         3L,
-                        "head.png",
+                        "h.jpeg",
                         "裤子",
-                        "裤子"
+                        "裤子",
+                        null
                 ),
                 new Category(
                         null,
                         3L,
-                        "head.png",
+                        "h.jpeg",
                         "衣服",
-                        "衣服"
+                        "衣服",
+                        null
                 )
         );
 
