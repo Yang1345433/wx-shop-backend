@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import yangcdtu.cn.wxshop.common.utils.MinioService;
+import yangcdtu.cn.wxshop.dto.brand.BrandPageQuery;
 import yangcdtu.cn.wxshop.entity.Article;
 import yangcdtu.cn.wxshop.enums.MinioBucketEnum;
 import yangcdtu.cn.wxshop.service.ArticleService;
+import yangcdtu.cn.wxshop.service.BrandService;
 import yangcdtu.cn.wxshop.service.IndexService;
 import yangcdtu.cn.wxshop.vo.home.*;
 
@@ -24,6 +26,7 @@ public class IndexController {
     private final MinioService minioService;
     private final ArticleService articleService;
     private final IndexService indexService;
+    private final BrandService brandService;
     @GetMapping("index")
     @Operation(summary = "数据")
     public HomeIndexInfoVO homeIndexInfo() {
@@ -50,20 +53,7 @@ public class IndexController {
                                 "topic sub title 2"
                         )
                 ),
-                List.of(
-                        new BrandVO(
-                                1L,
-                                minioService.getUrlForDownload(MinioBucketEnum.HOME_BANNER.getCode(), "head.png"),
-                                "brand 1",
-                                BigDecimal.valueOf(100.00)
-                        ),
-                        new BrandVO(
-                                2L,
-                                minioService.getUrlForDownload(MinioBucketEnum.HOME_BANNER.getCode(), "head.png"),
-                                "brand2",
-                                BigDecimal.valueOf(200.00)
-                        )
-                ),
+                brandService.getBrandList(new BrandPageQuery(1L, 2L)).getBrandList(),
                 List.of(
                         new NewGoodsVO(
                                 1L,

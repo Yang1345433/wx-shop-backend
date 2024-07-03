@@ -12,6 +12,7 @@ import yangcdtu.cn.wxshop.dto.goods.GoodListQuery;
 import yangcdtu.cn.wxshop.entity.*;
 import yangcdtu.cn.wxshop.enums.MinioBucketEnum;
 import yangcdtu.cn.wxshop.mapper.*;
+import yangcdtu.cn.wxshop.service.BrandService;
 import yangcdtu.cn.wxshop.service.GoodsService;
 import yangcdtu.cn.wxshop.vo.goods.*;
 
@@ -27,6 +28,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     private final SpecificationMapper specificationMapper;
     private final CommentMapper commentMapper;
     private final UserMapper userMapper;
+    private final BrandService brandService;
     @Override
     public GoodsPage getGoodsPageByCategory(GoodListQuery query) {
         Page<Goods> page = this.page(
@@ -74,6 +76,20 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         );
     }
 
+    @Override
+    public GoodsPage getGoodsPageByBrand(GoodListQuery query) {
+        Page<Goods> page = this.page(
+                Page.of(query.getPage(), query.getSize()),
+                new LambdaQueryWrapper<Goods>()
+                        .eq(Goods::getBrandId, query.getBrandId())
+        );
+        return new GoodsPage(
+                page.getRecords().stream().map(this::toGoodsVO).toList(),
+                page.getPages(),
+                Collections.emptyList()
+        );
+    }
+
     private CommentDetailVO toCommentDetailVO(Comment comment, User user) {
         return new CommentDetailVO(
                 user.getAvatarUrl(),
@@ -94,12 +110,16 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                 toGoodsInfoVO(goods),
                 specificationVOS,
                 products.stream().map(this::toProductVO).toList(),
-                null,
+                toBrandVO(brandService.getById(goods.getBrandId())),
                 getCommentVO(goods.getId()),
                 goods.getOtherInfo().getAttribute().stream().map(this::toAttributeVO).toList(),
                 goods.getOtherInfo().getIssue().stream().map(this::toIssueVO).toList(),
                 Collections.emptyList()
         );
+    }
+
+    private BrandVO toBrandVO(Brand brand) {
+        return new BrandVO(brand.getId(), brand.getName());
     }
 
     private SpecificationVO toSpecificationVO(String spec, List<SpecificationValueVO> specificationValueVOS) {

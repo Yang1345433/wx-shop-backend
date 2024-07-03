@@ -43,6 +43,7 @@ public class GoodsController {
     @Operation(summary = "商品列表")
     public GoodsPage getGoodsList(@ParameterObject GoodListQuery query) {
         if (query.getCategoryId() != null) return goodsService.getGoodsPageByCategory(query);
+        if (query.getBrandId() != null) return goodsService.getGoodsPageByBrand(query);
         return new GoodsPage(
                 List.of(
                         new GoodsVO(

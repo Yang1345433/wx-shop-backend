@@ -11,4 +11,6 @@ public interface GoodsService extends IService<Goods> {
     GoodsPage getGoodsPageByCategory(GoodListQuery query);
     GoodsDetailVO getGoodsDetail(Long id);
     CommentVO getCommentVO(Long goodsId);
+
+    GoodsPage getGoodsPageByBrand(GoodListQuery query);
 }

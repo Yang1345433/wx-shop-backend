@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS `goods`
     `id`            BIGINT                      NOT NULL AUTO_INCREMENT COMMENT '主键id',
     `category_id`   BIGINT                      NOT NULL COMMENT '分类id',
     `category_name` VARCHAR(120)                NOT NULL COMMENT '分类名称',
+    `brand_id`      BIGINT COMMENT '品牌id',
     `pic_url`       VARCHAR(255)                NOT NULL COMMENT '图片',
     `name`          VARCHAR(120)                NOT NULL COMMENT '名称',
     `brief`         VARCHAR(255) COMMENT '介绍',
@@ -94,3 +95,13 @@ CREATE TABLE IF NOT EXISTS `comment`
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT '评论表';
+
+CREATE TABLE IF NOT EXISTS `brand`
+(
+    `id`      BIGINT       NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `name`    VARCHAR(255) NOT NULL COMMENT '名称',
+    `pic_url` VARCHAR(255) NOT NULL COMMENT '图片',
+    `description`    TEXT COMMENT '介绍',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT '品牌表';

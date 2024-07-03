@@ -10,7 +10,6 @@ import yangcdtu.cn.wxshop.entity.Goods;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 @SpringBootTest
 public class GoodsServiceTest {
@@ -24,6 +23,7 @@ public class GoodsServiceTest {
                         null,
                         4L,
                         "电脑",
+                        1L,
                         "head.jpeg",
                         "Macbook pro 14英寸",
                         "搭载M3 pro MAX芯片的最新Macbook pro",
@@ -31,7 +31,7 @@ public class GoodsServiceTest {
                         null,
                         "<h1>最新款Macbook pro</h1>",
                         new GoodsOtherInfoBO(
-                                List.of(UUID.randomUUID() + "head.jpeg", UUID.randomUUID() + "head.jpeg"),
+                                List.of("3bf6d34e-e025-4dd6-b5bc-8953acfbe662head.jpeg", "12b679a0-157f-48a3-bdbd-dd08427606dfhead.jpeg"),
                                 List.of(
                                         new AttributeBO("屏幕尺寸", "14英寸"),
                                         new AttributeBO("续航时间", "12小时"),
@@ -53,6 +53,7 @@ public class GoodsServiceTest {
                         null,
                         4L,
                         "电脑",
+                        1L,
                         "head.jpeg",
                         "Macbook pro 14英寸",
                         "搭载M3 pro MAX芯片的最新Macbook pro",
@@ -60,7 +61,7 @@ public class GoodsServiceTest {
                         null,
                         "<h1>最新款Macbook pro</h1>",
                         new GoodsOtherInfoBO(
-                                List.of(UUID.randomUUID() + "head.jpeg", UUID.randomUUID() + "head.jpeg"),
+                                List.of("c2ea2bd3-38f3-4a8a-b4bd-cd617b19687fhead.jpeg", "b30f0e80-132b-4ab1-ab8c-cb5a4a803f7chead.jpeg"),
                                 List.of(
                                         new AttributeBO("屏幕尺寸", "16英寸"),
                                         new AttributeBO("续航时间", "24小时"),
@@ -87,7 +88,7 @@ public class GoodsServiceTest {
 
     @Test
     public void getGoods() {
-        Goods goods = goodsService.getById(1);
-        System.out.println(goods);
+        Goods goods = goodsService.getById(2);
+        System.out.println(goods.getOtherInfo().getGallery());
     }
 }

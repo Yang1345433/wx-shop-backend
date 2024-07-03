@@ -1,4 +1,4 @@
-package yangcdtu.cn.wxshop.vo.home;
+package yangcdtu.cn.wxshop.vo.brand;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class BrandVO {
     private Long id;
-    private String picUrl;
     private String name;
+    private String picUrl;
 }

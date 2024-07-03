@@ -14,6 +14,7 @@ public class Goods {
     private Long id;
     private Long categoryId;
     private String categoryName;
+    private Long brandId;
     private String picUrl;
     private String name;
     private String brief;

@@ -11,7 +11,8 @@ public enum MinioBucketEnum {
     GOODS("goods", "商品"),
     CATEGORY("category", "分类"),
     CATEGORY_ICON("categoryicon", "分类图标"),
-    COMMENT("comment", "评论图片");
+    COMMENT("comment", "评论图片"),
+    BRAND("brand", "品牌");
     private final String code;
     private final String desc;
 }
