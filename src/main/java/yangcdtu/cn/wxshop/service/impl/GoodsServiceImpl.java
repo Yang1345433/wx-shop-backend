@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
@@ -105,9 +106,13 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     private GoodsInfoVO toGoodsInfoVO(Goods goods) {
+        String picUrl = minioService.getUrlForDownload(MinioBucketEnum.GOODS.getCode(), goods.getId().toString() + goods.getPicUrl());
         return new GoodsInfoVO(
                 goods.getId(),
-                goods.getOtherInfo().getGallery().stream().map(item -> minioService.getUrlForDownload(MinioBucketEnum.GOODS.getCode(), item)).toList(),
+                Stream.concat(
+                        Stream.of(picUrl),
+                        goods.getOtherInfo().getGallery().stream().map(item -> minioService.getUrlForDownload(MinioBucketEnum.GOODS.getCode(), item)).toList().stream()
+                ).toList(),
                 minioService.getUrlForDownload(MinioBucketEnum.GOODS.getCode(), goods.getId().toString() + goods.getPicUrl()),
                 goods.getName(),
                 goods.getBrief(),

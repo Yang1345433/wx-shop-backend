@@ -81,6 +81,8 @@ public class GoodsServiceTest {
         );
 
         goodsService.saveBatch(goodsList);
+
+        goodsList.forEach(item -> System.out.println(item.getOtherInfo().getGallery()));
     }
 
     @Test
