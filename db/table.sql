@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `goods`
     `retail_price`  DECIMAL(10, 2) DEFAULT 0.00 NOT NULL COMMENT '新价格',
     `counter_price` DECIMAL(10, 2) COMMENT '老价格',
     `detail`        VARCHAR(255) COMMENT '详细',
-    `other_info` TEXT COMMENT '其他信息',
+    `other_info`    TEXT COMMENT '其他信息',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT '商品表';
@@ -82,3 +82,15 @@ CREATE TABLE IF NOT EXISTS `product`
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT '产品表';
+
+CREATE TABLE IF NOT EXISTS `comment`
+(
+    `id`       BIGINT      NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `goods_id` BIGINT      NOT NULL COMMENT '商品id',
+    `user_id`  BIGINT      NOT NULL COMMENT '用户id',
+    `add_time` VARCHAR(20) NOT NULL COMMENT '时间',
+    `content`  TEXT        NOT NULL COMMENT '内容',
+    `pic_list` TEXT        NULL COMMENT '图片',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT '评论表';

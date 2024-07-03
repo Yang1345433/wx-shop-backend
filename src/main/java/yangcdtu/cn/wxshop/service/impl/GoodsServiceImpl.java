@@ -9,20 +9,13 @@ import yangcdtu.cn.wxshop.bo.AttributeBO;
 import yangcdtu.cn.wxshop.bo.IssueBO;
 import yangcdtu.cn.wxshop.common.utils.MinioService;
 import yangcdtu.cn.wxshop.dto.goods.GoodListQuery;
-import yangcdtu.cn.wxshop.entity.Goods;
-import yangcdtu.cn.wxshop.entity.Product;
-import yangcdtu.cn.wxshop.entity.Specification;
+import yangcdtu.cn.wxshop.entity.*;
 import yangcdtu.cn.wxshop.enums.MinioBucketEnum;
-import yangcdtu.cn.wxshop.mapper.GoodsMapper;
-import yangcdtu.cn.wxshop.mapper.ProductMapper;
-import yangcdtu.cn.wxshop.mapper.SpecificationMapper;
+import yangcdtu.cn.wxshop.mapper.*;
 import yangcdtu.cn.wxshop.service.GoodsService;
 import yangcdtu.cn.wxshop.vo.goods.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,6 +25,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     private final MinioService minioService;
     private final ProductMapper productMapper;
     private final SpecificationMapper specificationMapper;
+    private final CommentMapper commentMapper;
+    private final UserMapper userMapper;
     @Override
     public GoodsPage getGoodsPageByCategory(GoodListQuery query) {
         Page<Goods> page = this.page(
@@ -61,6 +56,34 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         );
     }
 
+    @Override
+    public CommentVO getCommentVO(Long goodsId) {
+        List<Comment> comments = commentMapper.selectList(
+                new LambdaQueryWrapper<Comment>()
+                        .eq(Comment::getGoodsId, goodsId)
+        );
+
+        Map<Long, List<Comment>> userComment = comments.stream().collect(Collectors.groupingBy(Comment::getUserId));
+        Map<Long, User> userMap = new HashMap<>();
+
+        userComment.forEach((userId, value) -> userMap.put(userId, userMapper.selectById(userId)));
+
+        return new CommentVO(
+                comments.size(),
+                comments.stream().map(item -> toCommentDetailVO(item, userMap.get(item.getUserId()))).toList()
+        );
+    }
+
+    private CommentDetailVO toCommentDetailVO(Comment comment, User user) {
+        return new CommentDetailVO(
+                user.getAvatarUrl(),
+                user.getName(),
+                comment.getAddTime(),
+                comment.getContent(),
+                comment.getPicList().getUrls().stream().map(item -> minioService.getUrlForDownload(MinioBucketEnum.COMMENT.getCode(), item)).toList()
+        );
+    }
+
     private GoodsDetailVO toGoodsDetailVO(Goods goods, List<Specification> specifications, List<Product> products) {
         Map<String, List<Specification>> collect = specifications.stream().collect(Collectors.groupingBy(Specification::getSpec));
 
@@ -72,7 +95,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                 specificationVOS,
                 products.stream().map(this::toProductVO).toList(),
                 null,
-                null,
+                getCommentVO(goods.getId()),
                 goods.getOtherInfo().getAttribute().stream().map(this::toAttributeVO).toList(),
                 goods.getOtherInfo().getIssue().stream().map(this::toIssueVO).toList(),
                 Collections.emptyList()
