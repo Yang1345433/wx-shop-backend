@@ -115,3 +115,19 @@ CREATE TABLE IF NOT EXISTS `region`
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT '区域表';
+
+CREATE TABLE IF NOT EXISTS `address`
+(
+    `id`          BIGINT       NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `user_id`     BIGINT       NOT NULL COMMENT '用户id',
+    `address`     VARCHAR(255) NOT NULL COMMENT '地址',
+    `province_id` BIGINT       NOT NULL COMMENT '省份id',
+    `city_id`     BIGINT       NOT NULL COMMENT '城市id',
+    `area_id`     BIGINT       NOT NULL COMMENT '区域id',
+    `mobile`      VARCHAR(20)  NOT NULL COMMENT '电话',
+    `name`        VARCHAR(255) NOT NULL COMMENT '姓名',
+    `is_default`  BOOL         NOT NULL DEFAULT FALSE COMMENT '是否为默认地址',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT '地址表';
+
