@@ -18,3 +18,4 @@ auth:
     - /catalog/**
     - /groupon/**
     - /search/**
+    - /amap/**

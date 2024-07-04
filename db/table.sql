@@ -98,10 +98,20 @@ CREATE TABLE IF NOT EXISTS `comment`
 
 CREATE TABLE IF NOT EXISTS `brand`
 (
-    `id`      BIGINT       NOT NULL AUTO_INCREMENT COMMENT '主键id',
-    `name`    VARCHAR(255) NOT NULL COMMENT '名称',
-    `pic_url` VARCHAR(255) NOT NULL COMMENT '图片',
-    `description`    TEXT COMMENT '介绍',
+    `id`          BIGINT       NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `name`        VARCHAR(255) NOT NULL COMMENT '名称',
+    `pic_url`     VARCHAR(255) NOT NULL COMMENT '图片',
+    `description` TEXT COMMENT '介绍',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT '品牌表';
+
+CREATE TABLE IF NOT EXISTS `region`
+(
+    `id`   BIGINT       NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `pid`  BIGINT       NOT NULL COMMENT '父id',
+    `name` VARCHAR(255) NOT NULL COMMENT '名称',
+    `type` VARCHAR(20) COMMENT '类型',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT '区域表';
