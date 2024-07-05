@@ -131,3 +131,38 @@ CREATE TABLE IF NOT EXISTS `address`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT '地址表';
 
+CREATE TABLE IF NOT EXISTS `coupon`
+(
+    `id`          BIGINT                     NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `tag`         VARCHAR(255)               NOT NULL COMMENT 'tag',
+    `discount`    DECIMAL(10, 2) DEFAULT 0.0 NOT NULL COMMENT '地址',
+    `name`        VARCHAR(255)               NOT NULL COMMENT '名称',
+    `description` VARCHAR(255)               NOT NULL COMMENT '介绍',
+    `min`         DECIMAL(10, 2) DEFAULT 0.0 NOT NULL COMMENT '最小金额',
+    `days`        INT                        NOT NULL COMMENT '天数',
+    `start_time`  VARCHAR(20)                NOT NULL COMMENT '开始日期',
+    `end_time`    VARCHAR(20)                NOT NULL DEFAULT FALSE COMMENT '结束日期',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT '优惠卷';
+
+CREATE TABLE IF NOT EXISTS `user_coupon`
+(
+    `id`        BIGINT      NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `user_id`   BIGINT      NOT NULL COMMENT '用户id',
+    `coupon_id` BIGINT      NOT NULL COMMENT '优惠卷id',
+    `status`    VARCHAR(20) NOT NULL COMMENT '状态',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT '用户优惠卷';
+
+CREATE TABLE IF NOT EXISTS `cart`
+(
+    `id`         BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `user_id`    BIGINT NOT NULL COMMENT '用户id',
+    `checked`    BOOL            DEFAULT FALSE NOT NULL COMMENT '是否被选中',
+    `product_id` BIGINT NOT NULL COMMENT '产品id',
+    `number`     INT    NOT NULL DEFAULT 0 COMMENT '数量',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT '购物车';
