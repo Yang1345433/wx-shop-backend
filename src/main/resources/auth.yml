@@ -13,7 +13,6 @@ auth:
     - /article/**
     - /goods/**
     - /brand/**
-    - /cart/**
     - /comment/**
     - /catalog/**
     - /groupon/**

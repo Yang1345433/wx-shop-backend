@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class UserIndexOrderVO {
-    private int unpaid;
-    private int unship;
-    private int unrecv;
-    private int uncomment;
+    private Long unpaid;
+    private Long unship;
+    private Long unrecv;
+    private Long uncomment;
 }

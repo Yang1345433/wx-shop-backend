@@ -13,4 +13,6 @@ public interface CartService extends IService<Cart> {
     void checkedCartByUser(Long userId, List<Long> productIds, Boolean isChecked);
 
     void updateNumber(Long cartId, Integer number);
+    List<CartGoodsVO> getCheckedCartGoods(Long cartId);
+    Long saveCart(Long productId, Long number);
 }

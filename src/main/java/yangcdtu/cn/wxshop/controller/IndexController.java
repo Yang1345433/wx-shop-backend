@@ -1,5 +1,7 @@
 package yangcdtu.cn.wxshop.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -9,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import yangcdtu.cn.wxshop.common.utils.MinioService;
 import yangcdtu.cn.wxshop.dto.brand.BrandPageQuery;
 import yangcdtu.cn.wxshop.entity.Article;
+import yangcdtu.cn.wxshop.entity.Category;
+import yangcdtu.cn.wxshop.entity.Goods;
 import yangcdtu.cn.wxshop.enums.MinioBucketEnum;
-import yangcdtu.cn.wxshop.service.ArticleService;
-import yangcdtu.cn.wxshop.service.BrandService;
-import yangcdtu.cn.wxshop.service.IndexService;
+import yangcdtu.cn.wxshop.service.*;
 import yangcdtu.cn.wxshop.vo.home.*;
 
 import java.math.BigDecimal;
@@ -27,6 +29,8 @@ public class IndexController {
     private final ArticleService articleService;
     private final IndexService indexService;
     private final BrandService brandService;
+    private final GoodsService goodsService;
+    private final CategoryService categoryService;
     @GetMapping("index")
     @Operation(summary = "数据")
     public HomeIndexInfoVO homeIndexInfo() {
@@ -54,74 +58,52 @@ public class IndexController {
                         )
                 ),
                 brandService.getBrandList(new BrandPageQuery(1L, 2L)).getBrandList(),
-                List.of(
-                        new NewGoodsVO(
-                                1L,
-                                minioService.getUrlForDownload(MinioBucketEnum.HOME_BANNER.getCode(), "head.png"),
-                                "new goods 1",
-                                BigDecimal.valueOf(100.00)
-                        ),
-                        new NewGoodsVO(
-                                1L,
-                                minioService.getUrlForDownload(MinioBucketEnum.HOME_BANNER.getCode(), "head.png"),
-                                "new goods 2",
-                                BigDecimal.valueOf(200.00)
-                        )
-                ),
-                List.of(
-                        new HotGoodsVO(
-                                1L,
-                                minioService.getUrlForDownload(MinioBucketEnum.HOME_BANNER.getCode(), "head.png"),
-                                "hot goods 1",
-                                "brief 1",
-                                BigDecimal.valueOf(100.00)
-                        ),
-                        new HotGoodsVO(
-                                1L,
-                                minioService.getUrlForDownload(MinioBucketEnum.HOME_BANNER.getCode(), "head.png"),
-                                "new goods 2",
-                                "brief 2",
-                                BigDecimal.valueOf(200.00)
-                        )
-                ),
-                List.of(
-                        new FloorGoodsVO(
-                                1L,
-                                "floor good 1",
-                                List.of(
-                                        new FloorGoodsDetailVO(
-                                                1L,
-                                                minioService.getUrlForDownload(MinioBucketEnum.HOME_BANNER.getCode(), "head.png"),
-                                                "floor good 1 sub 1",
-                                                BigDecimal.valueOf(100.00)
-                                        ),
-                                        new FloorGoodsDetailVO(
-                                                2L,
-                                                minioService.getUrlForDownload(MinioBucketEnum.HOME_BANNER.getCode(), "head.png"),
-                                                "floor good 1 sub 2",
-                                                BigDecimal.valueOf(200.00)
-                                        )
-                                )
-                        ),
-                        new FloorGoodsVO(
-                                2L,
-                                "floor good 2",
-                                List.of(
-                                        new FloorGoodsDetailVO(
-                                                3L,
-                                                minioService.getUrlForDownload(MinioBucketEnum.HOME_BANNER.getCode(), "head.png"),
-                                                "floor good 2 sub 1",
-                                                BigDecimal.valueOf(300.00)
-                                        ),
-                                        new FloorGoodsDetailVO(
-                                                4L,
-                                                minioService.getUrlForDownload(MinioBucketEnum.HOME_BANNER.getCode(), "head.png"),
-                                                "floor good 2 sub 2",
-                                                BigDecimal.valueOf(400.00)
-                                        )
-                                )
-                        )
-                )
+                goodsService.page(Page.of(1, 2)).getRecords().stream().map(this::toNewGoodsVO).toList(),
+                goodsService.page(Page.of(1, 2)).getRecords().stream().map(this::toHotGoodsVO).toList(),
+                categoryService.list(
+                        new LambdaQueryWrapper<Category>()
+                                .eq(Category::getName, "电脑")
+                ).stream().map(this::toFloorGoodsVO).toList()
+        );
+    }
+
+    private NewGoodsVO toNewGoodsVO(Goods goods) {
+        return new NewGoodsVO(
+                goods.getId(),
+                minioService.getUrlForDownload(MinioBucketEnum.GOODS.getCode(), goods.getId().toString() + goods.getPicUrl()),
+                goods.getName(),
+                goods.getRetailPrice()
+        );
+    }
+
+    private HotGoodsVO toHotGoodsVO(Goods goods) {
+        return new HotGoodsVO(
+                goods.getId(),
+                minioService.getUrlForDownload(MinioBucketEnum.GOODS.getCode(), goods.getId().toString() + goods.getPicUrl()),
+                goods.getName(),
+                goods.getBrief(),
+                goods.getRetailPrice()
+        );
+    }
+
+    private FloorGoodsVO toFloorGoodsVO(Category category) {
+        return new FloorGoodsVO(
+                category.getId(),
+                category.getName(),
+                goodsService.page(
+                        Page.of(1, 2),
+                        new LambdaQueryWrapper<Goods>()
+                                .eq(Goods::getCategoryId, category.getId())
+                ).getRecords().stream().map(this::toFloorGoodsDetailVO).toList()
+        );
+    }
+
+    private FloorGoodsDetailVO toFloorGoodsDetailVO(Goods goods) {
+        return new FloorGoodsDetailVO(
+                goods.getId(),
+                minioService.getUrlForDownload(MinioBucketEnum.GOODS.getCode(), goods.getId().toString() + goods.getPicUrl()),
+                goods.getName(),
+                goods.getRetailPrice()
         );
     }
 }

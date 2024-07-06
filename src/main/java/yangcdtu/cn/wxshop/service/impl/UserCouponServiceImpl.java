@@ -15,6 +15,7 @@ import yangcdtu.cn.wxshop.service.UserCouponService;
 import yangcdtu.cn.wxshop.vo.coupon.CouponMyListVO;
 import yangcdtu.cn.wxshop.vo.coupon.CouponVO;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -37,6 +38,21 @@ public class UserCouponServiceImpl implements UserCouponService {
                         new LambdaQueryWrapper<Coupon>()
                                 .in(Coupon::getId, couponIds)
                 )
+        );
+    }
+
+    @Override
+    public Long getLeastUseCoupon(Long userId, BigDecimal min) {
+        List<Long> couponIds = userCouponMapper.selectList(
+                new LambdaQueryWrapper<UserCoupon>()
+                        .eq(UserCoupon::getUserId, userId)
+                        .eq(UserCoupon::getStatus, UserCouponStatus.UN_USED)
+        ).stream().map(UserCoupon::getCouponId).toList();
+
+        return couponMapper.selectCount(
+                new LambdaQueryWrapper<Coupon>()
+                        .in(Coupon::getId, couponIds)
+                        .le(Coupon::getMin, min)
         );
     }
 

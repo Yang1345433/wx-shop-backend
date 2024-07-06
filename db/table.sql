@@ -166,3 +166,18 @@ CREATE TABLE IF NOT EXISTS `cart`
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT '购物车';
+
+CREATE TABLE IF NOT EXISTS `wx_order`
+(
+    `id`         BIGINT       NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `user_id`    BIGINT       NOT NULL COMMENT '用户id',
+    `order_sn`   VARCHAR(40)  NOT NULL COMMENT '订单号',
+    `add_time`   VARCHAR(20)  NOT NULL COMMENT '时间',
+    `consignee`  VARCHAR(255) NOT NULL COMMENT '收货人',
+    `mobile`     VARCHAR(20)  NOT NULL COMMENT '手机号',
+    `address`    VARCHAR(255) NOT NULL COMMENT '地址',
+    `status`     VARCHAR(20)  NOT NULL COMMENT '状态',
+    `other_info` TEXT         NOT NULL COMMENT '其他信息',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT '订单';

@@ -13,6 +13,7 @@ import yangcdtu.cn.wxshop.enums.MinioBucketEnum;
 import yangcdtu.cn.wxshop.mapper.CartMapper;
 import yangcdtu.cn.wxshop.mapper.GoodsMapper;
 import yangcdtu.cn.wxshop.mapper.ProductMapper;
+import yangcdtu.cn.wxshop.security.SecurityUser;
 import yangcdtu.cn.wxshop.service.CartService;
 import yangcdtu.cn.wxshop.vo.cart.CartGoodsVO;
 import yangcdtu.cn.wxshop.vo.cart.CartTotalVO;
@@ -86,9 +87,31 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
         );
     }
 
+    @Override
+    public List<CartGoodsVO> getCheckedCartGoods(Long cartId) {
+        if (cartId != 0) {
+            return list(
+                    new LambdaQueryWrapper<Cart>()
+                            .eq(Cart::getId, cartId)
+            ).stream().map(this::toCartGoodsVO).toList();
+        }
+        return list(
+                new LambdaQueryWrapper<Cart>()
+                        .eq(Cart::getUserId, SecurityUser.getUserId())
+                        .eq(Cart::getChecked, true)
+        ).stream().map(this::toCartGoodsVO).toList();
+    }
+
+    @Override
+    public Long saveCart(Long productId, Long number) {
+        Cart cart = new Cart(null, SecurityUser.getUserId(), true, productId, number);
+        save(cart);
+        return cart.getId();
+    }
+
     private CartGoodsVO toCartGoodsVO(Cart cart) {
-        Product product = productMapper.selectById(cart.getId());
-        Goods goods = goodsMapper.selectById(product.getId());
+        Product product = productMapper.selectById(cart.getProductId());
+        Goods goods = goodsMapper.selectById(product.getGoodsId());
 
         return new CartGoodsVO(
                 cart.getId(),

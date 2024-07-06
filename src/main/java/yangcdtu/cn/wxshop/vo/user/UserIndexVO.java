@@ -7,7 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class UserIndexVO {
     private UserIndexOrderVO order;
-    private int totalAmount;
-    private int remainAmount;
-    private int couponCount;
+    private Long totalAmount;
+    private Long remainAmount;
+    private Long couponCount;
 }
